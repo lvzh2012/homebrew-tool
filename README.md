@@ -82,6 +82,40 @@ brew list test-tool
 brew uninstall test-tool
 ```
 
+## 移除 Tap
+
+如果你想完全移除这个 tap（包括所有通过此 tap 安装的工具）：
+
+```bash
+brew untap zhenhua/tool
+```
+
+**注意**：
+- `brew untap` 只会移除 tap 本身，不会自动卸载通过该 tap 安装的工具
+- 如果你想先卸载所有工具再移除 tap，可以这样做：
+
+```bash
+# 先卸载所有通过此 tap 安装的工具
+brew uninstall test-tool
+
+# 然后移除 tap
+brew untap zhenhua/tool
+```
+
+### 查看已安装的 Tap
+
+查看所有已安装的 tap：
+
+```bash
+brew tap
+```
+
+查看特定 tap 的详细信息：
+
+```bash
+brew tap-info zhenhua/tool
+```
+
 ## 更新 Tap
 
 ```bash
