@@ -8,10 +8,9 @@ class TestTool < Formula
   version "1.0.0"
   license "MIT"
 
-  # 使用本地文件路径
-  # 注意：对于本地 tap，使用 file:// URL
-  # 如果推送到 Git 仓库，可以改为 Git URL
-  url "file://#{File.expand_path(__dir__)}/../test.py"
+  # 使用 tap 目录中的文件
+  # 文件应该位于 Formula 文件同一目录下
+  url "file://#{File.expand_path(__dir__)}/test.py"
   sha256 "2fc164b8756de059f16a79bfd19a915de45189bf0063be176c83f463817972d7"
 
   def install
