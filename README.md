@@ -39,6 +39,43 @@ brew tap zhenhua/tool /Users/zhenhua/Desktop/Swift/tool/homebrew-tool
 brew install test-tool
 ```
 
+## 使用方法
+
+安装完成后，可以直接在终端中使用 `test-tool` 命令：
+
+```bash
+test-tool
+```
+
+**输出示例：**
+```
+Welcome to use this tool!!!
+```
+
+### 验证安装
+
+检查工具是否已正确安装：
+
+```bash
+which test-tool
+# 应该输出: /opt/homebrew/bin/test-tool (或类似路径)
+
+test-tool --version
+# 或者直接运行查看输出
+```
+
+### 工具位置
+
+安装后，`test-tool` 可执行文件位于：
+- **Apple Silicon (M1/M2)**: `/opt/homebrew/bin/test-tool`
+- **Intel Mac**: `/usr/local/bin/test-tool`
+
+你可以通过以下命令查看：
+
+```bash
+brew list test-tool
+```
+
 ## 卸载工具
 
 ```bash
