@@ -194,6 +194,77 @@ homebrew-tool/
 2. 按照 Homebrew Formula 规范编写 Formula
 3. 使用 `brew install <formula-name>` 安装
 
+### 生成 SHA256 校验和
+
+在创建或更新 Formula 时，需要为下载的文件生成 SHA256 校验和。Homebrew 使用这个校验和来验证文件的完整性。
+
+#### 方法 1: 使用 `shasum` 命令（macOS 内置）
+
+对于本地文件：
+
+```bash
+shasum -a 256 /path/to/your/file
+```
+
+**示例：**
+```bash
+cd /Users/zhenhua/Desktop/Swift/tool/homebrew-tool
+shasum -a 256 test.py
+```
+
+**输出示例：**
+```
+bd12cfb53cc7c7bb8881f3625a93695c75ff65f4b65caed7f30c66055c737728  test.py
+```
+
+只需要复制 SHA256 值（第一列）到 Formula 文件中。
+
+#### 方法 2: 使用 `sha256sum` 命令（如果可用）
+
+```bash
+sha256sum /path/to/your/file
+```
+
+#### 方法 3: 使用 Homebrew 的 `brew fetch` 命令
+
+如果文件已经可以通过 URL 访问，可以使用：
+
+```bash
+brew fetch --formula <formula-name>
+```
+
+这会显示下载文件的 SHA256 值。
+
+#### 方法 4: 使用 `openssl` 命令
+
+```bash
+openssl dgst -sha256 /path/to/your/file
+```
+
+**输出示例：**
+```
+SHA256(/path/to/your/file)= bd12cfb53cc7c7bb8881f3625a93695c75ff65f4b65caed7f30c66055c737728
+```
+
+#### 在 Formula 中使用 SHA256
+
+将生成的 SHA256 值添加到 Formula 文件中：
+
+```ruby
+class YourTool < Formula
+  # ... 其他配置 ...
+  url "file://#{File.expand_path(__dir__)}/your-file"
+  sha256 "bd12cfb53cc7c7bb8881f3625a93695c75ff65f4b65caed7f30c66055c737728"
+  # ... 其他配置 ...
+end
+```
+
+#### 注意事项
+
+- **更新文件后必须更新 SHA256**：如果修改了源文件，必须重新计算并更新 Formula 中的 SHA256 值
+- **SHA256 是必需的**：Homebrew 要求所有下载的文件都有 SHA256 校验和（除非使用 `:no_check` 跳过，但不推荐）
+- **验证 SHA256**：安装时 Homebrew 会自动验证文件的 SHA256，如果不匹配会报错
+
 ## 注意事项
 
 - 这是一个本地 tap，Formula 中的 URL 使用 `file://` 协议
