@@ -11,7 +11,7 @@ class TestTool < Formula
   # 使用 tap 目录中的文件
   # 文件应该位于 Formula 文件同一目录下
   url "file://#{File.expand_path(__dir__)}/test.py"
-  sha256 "2fc164b8756de059f16a79bfd19a915de45189bf0063be176c83f463817972d7"
+  sha256 "bd12cfb53cc7c7bb8881f3625a93695c75ff65f4b65caed7f30c66055c737728"
 
   def install
     # 将脚本安装到 bin 目录，并重命名为 test-tool
