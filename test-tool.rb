@@ -15,9 +15,10 @@ class TestTool < Formula
 
   def install
     # 将脚本安装到 bin 目录，并重命名为 test-tool
+    # bin.install 会自动设置执行权限，但我们需要确保源文件也有执行权限
     bin.install "test.py" => "test-tool"
-    # 确保脚本有执行权限
-    chmod 0755, bin/"test-tool"
+    # 显式设置执行权限（确保）
+    system "chmod", "+x", bin/"test-tool"
   end
 
   test do
