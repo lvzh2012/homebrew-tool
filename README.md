@@ -4,14 +4,31 @@
 
 ## 安装 Tap
 
+### 方法 1: 本地 Git 仓库（推荐用于本地开发）
+
 ```bash
 brew tap zhenhua/tool file:///Users/zhenhua/Desktop/Swift/tool/homebrew-tool
 ```
 
-或者，如果你已经将这个目录推送到 Git 仓库：
+**注意**：确保 `homebrew-tool` 目录已经初始化为 Git 仓库（已完成）。
+
+### 方法 2: Git 远程仓库（推荐用于分享）
+
+如果你已经将这个目录推送到 Git 仓库：
 
 ```bash
 brew tap zhenhua/tool <git-repo-url>
+```
+
+例如：
+```bash
+brew tap zhenhua/tool https://github.com/zhenhua/tool.git
+```
+
+### 方法 3: 直接使用本地路径（如果上述方法不行）
+
+```bash
+brew tap zhenhua/tool /Users/zhenhua/Desktop/Swift/tool/homebrew-tool
 ```
 
 ## 安装工具
