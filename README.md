@@ -104,17 +104,75 @@ brew untap zhenhua/tool
 
 ### 查看已安装的 Tap
 
-查看所有已安装的 tap：
+#### 查看所有已安装的 tap
+
+列出所有已安装的 tap：
 
 ```bash
 brew tap
 ```
 
-查看特定 tap 的详细信息：
+**输出示例：**
+```
+homebrew/core
+homebrew/cask
+zhenhua/tool
+```
+
+#### 查看特定 tap 的详细信息
+
+查看某个 tap 的详细信息，包括：
+- Tap 的路径
+- Formula 数量
+- 是否已安装
+- 最后更新时间
 
 ```bash
 brew tap-info zhenhua/tool
 ```
+
+查看所有 tap 的详细信息：
+
+```bash
+brew tap-info --installed
+```
+
+#### 查看 tap 中可用的 Formula
+
+查看某个 tap 中所有可用的 Formula（工具）：
+
+```bash
+brew search zhenhua/tool
+```
+
+或者：
+
+```bash
+ls /opt/homebrew/Library/Taps/zhenhua/homebrew-tool/
+```
+
+#### 查看 tap 的安装路径
+
+查看 tap 在系统中的实际位置：
+
+```bash
+brew --repo zhenhua/tool
+```
+
+**输出示例：**
+```
+/opt/homebrew/Library/Taps/zhenhua/homebrew-tool
+```
+
+#### 检查 tap 是否已安装
+
+检查特定 tap 是否已安装：
+
+```bash
+brew tap | grep zhenhua/tool
+```
+
+如果已安装，会显示 `zhenhua/tool`；如果未安装，则没有输出。
 
 ## 更新 Tap
 
