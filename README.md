@@ -46,7 +46,7 @@ git pull
 ```bash
 rktool -h          # 显示帮助信息
 rktool -v          # 显示版本信息
-rktool install xarc  # 安装 Libarclite 文件到 xarc 目录
+rktool install arc  # 安装 Libarclite 文件到 arc 目录（需要管理员权限）
 ```
 
 **输出示例：**
