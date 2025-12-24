@@ -7,7 +7,7 @@
 ### 方法 1: 本地 Git 仓库（推荐用于本地开发）
 
 ```bash
-brew tap zhenhua/tool file:///Users/zhenhua/Desktop/Swift/tool/homebrew-tool
+brew tap xxx/tool file:///Users/xxx/Desktop/Swift/tool/homebrew-tool
 ```
 
 **注意**：确保 `homebrew-tool` 目录已经初始化为 Git 仓库（已完成）。
@@ -17,34 +17,67 @@ brew tap zhenhua/tool file:///Users/zhenhua/Desktop/Swift/tool/homebrew-tool
 如果你已经将这个目录推送到 Git 仓库：
 
 ```bash
-brew tap zhenhua/tool <git-repo-url>
+brew tap xxx/tool <git-repo-url>
 ```
 
 例如：
 ```bash
-brew tap zhenhua/tool https://github.com/zhenhua/tool.git
+brew tap xxx/tool https://github.com/xxx/tool.git
 ```
 
 ### 方法 3: 直接使用本地路径（如果上述方法不行）
 
 ```bash
-brew tap zhenhua/tool /Users/zhenhua/Desktop/Swift/tool/homebrew-tool
+brew tap xxx/tool /Users/xxx/Desktop/Swift/tool/homebrew-tool
 ```
 
 ## 安装工具
 
-安装测试工具：
+### 方法 1: 从 Tap 安装（推荐）
+
+如果 tap 已添加且已同步：
 
 ```bash
-brew install test-tool
+brew install rktool
+```
+
+### 方法 2: 直接使用本地 Formula 文件安装
+
+如果 tap 未同步或需要安装最新版本，可以直接使用本地文件：
+
+```bash
+brew install /Users/zhenhua/Desktop/Swift/tool/homebrew-tool/rktool.rb
+```
+
+或者使用相对路径（在 homebrew-tool 目录下）：
+
+```bash
+cd /Users/zhenhua/Desktop/Swift/tool/homebrew-tool
+brew install ./rktool.rb
+```
+
+### 更新 Tap（如果使用 Tap 方式）
+
+如果 tap 中的文件已过期，需要更新：
+
+```bash
+# 方法 1: 如果 tap 是 Git 仓库，可以 pull 更新
+cd $(brew --repo zhenhua/tool)
+git pull
+
+# 方法 2: 重新添加 tap（会覆盖旧文件）
+brew untap zhenhua/tool
+brew tap zhenhua/tool file:///Users/zhenhua/Desktop/Swift/tool/homebrew-tool
 ```
 
 ## 使用方法
 
-安装完成后，可以直接在终端中使用 `test-tool` 命令：
+安装完成后，可以直接在终端中使用 `rktool` 命令：
 
 ```bash
-test-tool
+rktool -h          # 显示帮助信息
+rktool -v          # 显示版本信息
+rktool install xarc  # 安装 Libarclite 文件到 xarc 目录
 ```
 
 **输出示例：**
@@ -57,29 +90,29 @@ Welcome to use this tool!!!
 检查工具是否已正确安装：
 
 ```bash
-which test-tool
-# 应该输出: /opt/homebrew/bin/test-tool (或类似路径)
+which rktool
+# 应该输出: /opt/homebrew/bin/rktool (或类似路径)
 
-test-tool --version
-# 或者直接运行查看输出
+rktool -v
+# 显示版本信息
 ```
 
 ### 工具位置
 
-安装后，`test-tool` 可执行文件位于：
-- **Apple Silicon (M1/M2)**: `/opt/homebrew/bin/test-tool`
-- **Intel Mac**: `/usr/local/bin/test-tool`
+安装后，`rktool` 可执行文件位于：
+- **Apple Silicon (M1/M2)**: `/opt/homebrew/bin/rktool`
+- **Intel Mac**: `/usr/local/bin/rktool`
 
 你可以通过以下命令查看：
 
 ```bash
-brew list test-tool
+brew list rktool
 ```
 
 ## 卸载工具
 
 ```bash
-brew uninstall test-tool
+brew uninstall rktool
 ```
 
 ## 移除 Tap
@@ -87,7 +120,7 @@ brew uninstall test-tool
 如果你想完全移除这个 tap（包括所有通过此 tap 安装的工具）：
 
 ```bash
-brew untap zhenhua/tool
+brew untap xxx/tool
 ```
 
 **注意**：
@@ -96,7 +129,7 @@ brew untap zhenhua/tool
 
 ```bash
 # 先卸载所有通过此 tap 安装的工具
-brew uninstall test-tool
+brew uninstall rktool
 
 # 然后移除 tap
 brew untap zhenhua/tool
@@ -116,7 +149,7 @@ brew tap
 ```
 homebrew/core
 homebrew/cask
-zhenhua/tool
+xxx/tool
 ```
 
 #### 查看特定 tap 的详细信息
@@ -128,7 +161,7 @@ zhenhua/tool
 - 最后更新时间
 
 ```bash
-brew tap-info zhenhua/tool
+brew tap-info xxx/tool
 ```
 
 查看所有 tap 的详细信息：
@@ -142,13 +175,13 @@ brew tap-info --installed
 查看某个 tap 中所有可用的 Formula（工具）：
 
 ```bash
-brew search zhenhua/tool
+brew search xxx/tool
 ```
 
 或者：
 
 ```bash
-ls /opt/homebrew/Library/Taps/zhenhua/homebrew-tool/
+ls /opt/homebrew/Library/Taps/xxx/homebrew-tool/
 ```
 
 #### 查看 tap 的安装路径
@@ -156,12 +189,12 @@ ls /opt/homebrew/Library/Taps/zhenhua/homebrew-tool/
 查看 tap 在系统中的实际位置：
 
 ```bash
-brew --repo zhenhua/tool
+brew --repo xxx/tool
 ```
 
 **输出示例：**
 ```
-/opt/homebrew/Library/Taps/zhenhua/homebrew-tool
+/opt/homebrew/Library/Taps/xxx/homebrew-tool
 ```
 
 #### 检查 tap 是否已安装
@@ -169,10 +202,10 @@ brew --repo zhenhua/tool
 检查特定 tap 是否已安装：
 
 ```bash
-brew tap | grep zhenhua/tool
+brew tap | grep xxx/tool
 ```
 
-如果已安装，会显示 `zhenhua/tool`；如果未安装，则没有输出。
+如果已安装，会显示 `xxx/tool`；如果未安装，则没有输出。
 
 ## 更新 Tap
 
@@ -185,7 +218,8 @@ brew update
 ```
 homebrew-tool/
 ├── README.md          # 本文件
-└── test-tool.rb       # Test Tool 的 Formula
+├── rktool.rb          # Rktool 的 Formula
+└── rktool.sh          # Rktool 的脚本文件
 ```
 
 ## 添加新的 Formula
@@ -208,11 +242,12 @@ shasum -a 256 /path/to/your/file
 
 **示例：**
 ```bash
-cd /Users/zhenhua/Desktop/Swift/tool/homebrew-tool
+cd /Users/xxx/Desktop/Swift/tool/homebrew-tool
 shasum -a 256 test.py
 ```
 
 **输出示例：**
+
 ```
 bd12cfb53cc7c7bb8881f3625a93695c75ff65f4b65caed7f30c66055c737728  test.py
 ```
