@@ -1,73 +1,42 @@
 # Homebrew Tool Tap
 
-这是一个私有的 Homebrew tap，用于安装和管理自定义工具。
+这是一个 Homebrew tap，用于安装和管理自定义工具。
 
 ## 安装 Tap
 
-### 方法 1: 本地 Git 仓库（推荐用于本地开发）
+添加 tap 到你的 Homebrew：
 
 ```bash
-brew tap xxx/tool file:///Users/xxx/Desktop/Swift/tool/homebrew-tool
+brew tap lvzh2012/tool https://github.com/lvzh2012/homebrew-tool.git
 ```
 
-**注意**：确保 `homebrew-tool` 目录已经初始化为 Git 仓库（已完成）。
-
-### 方法 2: Git 远程仓库（推荐用于分享）
-
-如果你已经将这个目录推送到 Git 仓库：
+如果仓库是公开的，也可以简化为：
 
 ```bash
-brew tap xxx/tool <git-repo-url>
-```
-
-例如：
-```bash
-brew tap xxx/tool https://github.com/xxx/tool.git
-```
-
-### 方法 3: 直接使用本地路径（如果上述方法不行）
-
-```bash
-brew tap xxx/tool /Users/xxx/Desktop/Swift/tool/homebrew-tool
+brew tap lvzh2012/tool
 ```
 
 ## 安装工具
 
-### 方法 1: 从 Tap 安装（推荐）
-
-如果 tap 已添加且已同步：
+添加 tap 后，安装工具：
 
 ```bash
 brew install rktool
 ```
 
-### 方法 2: 直接使用本地 Formula 文件安装
+## 更新 Tap
 
-如果 tap 未同步或需要安装最新版本，可以直接使用本地文件：
+更新 tap 以获取最新版本：
 
 ```bash
-brew install /Users/zhenhua/Desktop/Swift/tool/homebrew-tool/rktool.rb
+brew update
 ```
 
-或者使用相对路径（在 homebrew-tool 目录下）：
+或者手动更新特定 tap：
 
 ```bash
-cd /Users/zhenhua/Desktop/Swift/tool/homebrew-tool
-brew install ./rktool.rb
-```
-
-### 更新 Tap（如果使用 Tap 方式）
-
-如果 tap 中的文件已过期，需要更新：
-
-```bash
-# 方法 1: 如果 tap 是 Git 仓库，可以 pull 更新
-cd $(brew --repo zhenhua/tool)
+cd $(brew --repo lvzh2012/tool)
 git pull
-
-# 方法 2: 重新添加 tap（会覆盖旧文件）
-brew untap zhenhua/tool
-brew tap zhenhua/tool file:///Users/zhenhua/Desktop/Swift/tool/homebrew-tool
 ```
 
 ## 使用方法
@@ -117,10 +86,10 @@ brew uninstall rktool
 
 ## 移除 Tap
 
-如果你想完全移除这个 tap（包括所有通过此 tap 安装的工具）：
+如果你想完全移除这个 tap：
 
 ```bash
-brew untap xxx/tool
+brew untap lvzh2012/tool
 ```
 
 **注意**：
@@ -132,7 +101,7 @@ brew untap xxx/tool
 brew uninstall rktool
 
 # 然后移除 tap
-brew untap zhenhua/tool
+brew untap lvzh2012/tool
 ```
 
 ### 查看已安装的 Tap
@@ -149,7 +118,7 @@ brew tap
 ```
 homebrew/core
 homebrew/cask
-xxx/tool
+lvzh2012/tool
 ```
 
 #### 查看特定 tap 的详细信息
@@ -161,7 +130,7 @@ xxx/tool
 - 最后更新时间
 
 ```bash
-brew tap-info xxx/tool
+brew tap-info lvzh2012/tool
 ```
 
 查看所有 tap 的详细信息：
@@ -175,13 +144,13 @@ brew tap-info --installed
 查看某个 tap 中所有可用的 Formula（工具）：
 
 ```bash
-brew search xxx/tool
+brew search lvzh2012/tool
 ```
 
 或者：
 
 ```bash
-ls /opt/homebrew/Library/Taps/xxx/homebrew-tool/
+ls /opt/homebrew/Library/Taps/lvzh2012/homebrew-tool/
 ```
 
 #### 查看 tap 的安装路径
@@ -189,12 +158,12 @@ ls /opt/homebrew/Library/Taps/xxx/homebrew-tool/
 查看 tap 在系统中的实际位置：
 
 ```bash
-brew --repo xxx/tool
+brew --repo lvzh2012/tool
 ```
 
 **输出示例：**
 ```
-/opt/homebrew/Library/Taps/xxx/homebrew-tool
+/opt/homebrew/Library/Taps/lvzh2012/homebrew-tool
 ```
 
 #### 检查 tap 是否已安装
@@ -202,10 +171,10 @@ brew --repo xxx/tool
 检查特定 tap 是否已安装：
 
 ```bash
-brew tap | grep xxx/tool
+brew tap | grep lvzh2012/tool
 ```
 
-如果已安装，会显示 `xxx/tool`；如果未安装，则没有输出。
+如果已安装，会显示 `lvzh2012/tool`；如果未安装，则没有输出。
 
 ## 更新 Tap
 
@@ -234,22 +203,13 @@ homebrew-tool/
 
 #### 方法 1: 使用 `shasum` 命令（macOS 内置）
 
-对于本地文件：
-
 ```bash
 shasum -a 256 /path/to/your/file
 ```
 
-**示例：**
-```bash
-cd /Users/xxx/Desktop/Swift/tool/homebrew-tool
-shasum -a 256 test.py
-```
-
 **输出示例：**
-
 ```
-bd12cfb53cc7c7bb8881f3625a93695c75ff65f4b65caed7f30c66055c737728  test.py
+bd12cfb53cc7c7bb8881f3625a93695c75ff65f4b65caed7f30c66055c737728  your-file
 ```
 
 只需要复制 SHA256 值（第一列）到 Formula 文件中。
@@ -288,7 +248,7 @@ SHA256(/path/to/your/file)= bd12cfb53cc7c7bb8881f3625a93695c75ff65f4b65caed7f30c
 ```ruby
 class YourTool < Formula
   # ... 其他配置 ...
-  url "file://#{File.expand_path(__dir__)}/your-file"
+  url "https://github.com/yourusername/your-repo/raw/main/your-file"
   sha256 "bd12cfb53cc7c7bb8881f3625a93695c75ff65f4b65caed7f30c66055c737728"
   # ... 其他配置 ...
 end
@@ -302,7 +262,6 @@ end
 
 ## 注意事项
 
-- 这是一个本地 tap，Formula 中的 URL 使用 `file://` 协议
-- 如果需要分享给其他人，建议将 tap 推送到 Git 仓库
 - 确保脚本有执行权限
+- 更新 Formula 后记得提交并推送到 GitHub
 
