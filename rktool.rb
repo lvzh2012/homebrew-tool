@@ -11,7 +11,7 @@ class Rktool < Formula
   # 使用 tap 目录中的文件
   # 文件应该位于 Formula 文件同一目录下
   url "file://#{File.expand_path(__dir__)}/rktool.sh"
-  sha256 "76b2a44bbd2794bf19c207383d760d17c1e6ad07f3da7776df95d4a603d1fff8"
+  sha256 "b23f5dae46bf1ba6323b6f35a21dfe486e98a24b40168afea275a33819d1f280"
 
   def install
     # 将脚本安装到 bin 目录，并重命名为 rktool

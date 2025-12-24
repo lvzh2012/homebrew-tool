@@ -14,7 +14,7 @@ show_help() {
     echo "  -v, --version  显示版本信息"
     echo ""
     echo "示例:"
-    echo "  rktool install xarc   安装 Libarclite 文件到 xarc 目录"
+    echo "  rktool install arc    安装 Libarclite 文件到 arc 目录"
     echo "  rktool -h             显示帮助信息"
     echo "  rktool -v             显示版本信息"
 }
@@ -51,24 +51,79 @@ case "$1" in
         echo "Welcome to use this tool!!!"
         echo "正在安装到目录: $DIR_NAME"
         
-        # 1. cd到指定文件夹并创建目录
-        cd /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/
-
+        # 1. 定义目标路径
+        TARGET_DIR="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib"
+        
+        # 检查目标路径是否存在
+        if [ ! -d "$TARGET_DIR" ]; then
+            echo "错误: Xcode 工具链路径不存在: $TARGET_DIR"
+            echo "请确保已安装 Xcode 并接受许可协议"
+            exit 1
+        fi
+        
+        # 切换到目标目录
+        cd "$TARGET_DIR" || {
+            echo "错误: 无法切换到目录 $TARGET_DIR"
+            exit 1
+        }
+        
         # 检查目录是否存在且不为空
-        if [ -d "$DIR_NAME" ] && [ "$(ls -A $DIR_NAME 2>/dev/null)" ]; then
+        if [ -d "$DIR_NAME" ] && [ "$(ls -A "$DIR_NAME" 2>/dev/null)" ]; then
             echo "错误: $DIR_NAME 文件夹已存在且不为空，请先删除或清空该文件夹后再运行此脚本。"
             exit 1
         fi
 
         # 如果目录不存在，则创建
         if [ ! -d "$DIR_NAME" ]; then
-            sudo mkdir "$DIR_NAME"
+            echo "正在创建目录 $DIR_NAME（需要管理员权限）..."
+            sudo mkdir "$DIR_NAME" 2>&1
+            MKDIR_RESULT=$?
+            if [ $MKDIR_RESULT -ne 0 ]; then
+                echo "错误: 无法创建目录 $DIR_NAME（需要管理员权限）"
+                echo "请确保有管理员权限（可能需要输入密码）"
+                exit 1
+            fi
+        fi
+
+        # 验证目录是否创建成功
+        if [ ! -d "$DIR_NAME" ]; then
+            echo "错误: 目录 $DIR_NAME 不存在，创建失败"
+            exit 1
         fi
 
         # 2. 下载丢失的文件并使它们可执行
-        cd "$DIR_NAME"
-        sudo git clone https://github.com/kamyarelyasi/Libarclite-Files.git .
-        sudo chmod +x *
+        if ! cd "$DIR_NAME"; then
+            echo "错误: 无法切换到目录 $DIR_NAME"
+            exit 1
+        fi
+        
+        echo "正在下载 Libarclite 文件（需要管理员权限和网络连接）..."
+        sudo git clone https://github.com/kamyarelyasi/Libarclite-Files.git . 2>&1
+        GIT_CLONE_RESULT=$?
+        if [ $GIT_CLONE_RESULT -ne 0 ]; then
+            echo "错误: git clone 失败（需要管理员权限和网络连接）"
+            echo "请确保："
+            echo "  1. 有管理员权限（可能需要输入密码）"
+            echo "  2. 网络连接正常"
+            exit 1
+        fi
+        
+        # 验证 git clone 是否成功
+        if [ ! -d ".git" ] && [ -z "$(ls -A . 2>/dev/null)" ]; then
+            echo "错误: git clone 失败，目录为空"
+            exit 1
+        fi
+        
+        # 使文件可执行（如果目录不为空）
+        if [ "$(ls -A . 2>/dev/null)" ]; then
+            echo "正在设置文件执行权限..."
+            sudo chmod +x * 2>&1
+            CHMOD_RESULT=$?
+            if [ $CHMOD_RESULT -ne 0 ]; then
+                echo "警告: 无法设置文件执行权限"
+            fi
+        fi
+        
         echo "安装完成！"
         ;;
     *)
