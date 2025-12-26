@@ -10,7 +10,7 @@ class Rktool < Formula
 
   # 从 GitHub 仓库下载文件
   url "https://raw.githubusercontent.com/lvzh2012/homebrew-tool/main/rktool.sh"
-  sha256 "59c811cedd8c3902d6b804cd7304b01421215b949878c4a95609fba5a78be3ad"
+  sha256 "9386f9ab56b2e3fb518c32b98ebcb2622c6a2be0a768395a5dc6e73ab7a7901b"
 
   def install
     # 将脚本安装到 bin 目录，并重命名为 rktool
