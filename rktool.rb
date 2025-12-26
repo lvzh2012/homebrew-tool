@@ -19,6 +19,10 @@ class Rktool < Formula
     bin.install "rktool.sh" => "rktool"
     # 显式设置执行权限（确保）
     system "chmod", "+x", bin/"rktool"
+    
+    # 同时安装 spinner.sh 作为库文件，方便其他脚本使用
+    libexec.install "spinner.sh"
+    system "chmod", "+x", libexec/"spinner.sh"
   end
 
   test do
