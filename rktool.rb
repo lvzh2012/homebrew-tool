@@ -8,10 +8,15 @@ class Rktool < Formula
   version "1.0.0"
   license "MIT"
 
-  # 使用 tap 目录中的文件
-  # 文件应该位于 Formula 文件同一目录下
-  url "file://#{File.expand_path(__dir__)}/rktool.sh"
-  sha256 "b23f5dae46bf1ba6323b6f35a21dfe486e98a24b40168afea275a33819d1f280"
+  # 从 GitHub 仓库下载文件
+  url "https://raw.githubusercontent.com/lvzh2012/homebrew-tool/main/rktool.sh"
+  sha256 "59c811cedd8c3902d6b804cd7304b01421215b949878c4a95609fba5a78be3ad"
+
+  # 添加 spinner.sh 作为资源文件
+  resource "spinner" do
+    url "https://raw.githubusercontent.com/lvzh2012/homebrew-tool/main/spinner.sh"
+    sha256 "dc0ad195dfba9b15060f4f8f5f48f7ee65c1b3fd5979e09d6175a84b3b68ee23"
+  end
 
   def install
     # 将脚本安装到 bin 目录，并重命名为 rktool
@@ -20,9 +25,11 @@ class Rktool < Formula
     # 显式设置执行权限（确保）
     system "chmod", "+x", bin/"rktool"
     
-    # 同时安装 spinner.sh 作为库文件，方便其他脚本使用
-    libexec.install "spinner.sh"
-    system "chmod", "+x", libexec/"spinner.sh"
+    # 安装 spinner.sh 作为库文件，方便其他脚本使用
+    resource("spinner").stage do
+      libexec.install "spinner.sh"
+      system "chmod", "+x", libexec/"spinner.sh"
+    end
   end
 
   test do
