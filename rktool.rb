@@ -12,24 +12,12 @@ class Rktool < Formula
   url "https://raw.githubusercontent.com/lvzh2012/homebrew-tool/main/rktool.sh"
   sha256 "59c811cedd8c3902d6b804cd7304b01421215b949878c4a95609fba5a78be3ad"
 
-  # 添加 spinner.sh 作为资源文件
-  resource "spinner" do
-    url "https://raw.githubusercontent.com/lvzh2012/homebrew-tool/main/spinner.sh"
-    sha256 "dc0ad195dfba9b15060f4f8f5f48f7ee65c1b3fd5979e09d6175a84b3b68ee23"
-  end
-
   def install
     # 将脚本安装到 bin 目录，并重命名为 rktool
     # bin.install 会自动设置执行权限，但我们需要确保源文件也有执行权限
     bin.install "rktool.sh" => "rktool"
     # 显式设置执行权限（确保）
     system "chmod", "+x", bin/"rktool"
-    
-    # 安装 spinner.sh 作为库文件，方便其他脚本使用
-    resource("spinner").stage do
-      libexec.install "spinner.sh"
-      system "chmod", "+x", libexec/"spinner.sh"
-    end
   end
 
   test do
