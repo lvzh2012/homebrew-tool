@@ -48,6 +48,17 @@ case "$1" in
         fi
         
         DIR_NAME="$2"
+        # Restrict directory name to safe chars (prevent injection when passed to sudo sh -c)
+        case "$DIR_NAME" in
+            *[!a-zA-Z0-9_.-]*)
+                echo "错误: 目录名只能包含字母、数字、下划线、点和横线"
+                exit 1
+                ;;
+            "")
+                echo "错误: 目录名不能为空"
+                exit 1
+                ;;
+        esac
         echo "Welcome to use this tool!!!"
         echo "正在安装到目录: $DIR_NAME"
         
